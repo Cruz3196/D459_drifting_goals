@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Causal Loop Diagram</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #f5f5f5;
+      }
+      .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      canvas {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-top: 0;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Causal Loop Diagram – Drifting Goals Archetype</h1>
+      <canvas id="canvas" width="900" height="800"></canvas>
+    </div>
+
+    <script src="causal_loop.js"></script>
+  </body>
+</html>
