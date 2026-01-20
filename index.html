@@ -1,54 +1,538 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Causal Loop Diagram</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Shifting the Burden Diagram (WGU Style)</title>
     <style>
+      :root {
+        --stroke: #111;
+        --text: #111;
+        --bg: #fff;
+      }
       body {
         margin: 0;
-        padding: 20px;
-        font-family: Arial, sans-serif;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Arial,
+          sans-serif;
+        background: #f4f6f8;
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 24px auto;
+        padding: 16px;
+      }
+      .card {
+        background: var(--bg);
+        border: 1px solid #d9dee3;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.06);
+      }
+      .toolbar {
         display: flex;
-        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
         align-items: center;
-        min-height: 100vh;
-        background: #f5f5f5;
+        justify-content: space-between;
+        margin-bottom: 12px;
       }
-      .container {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      .toolbar h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
       }
-      canvas {
-        border: 1px solid #ddd;
-        border-radius: 4px;
+      .btns {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
       }
-      h1 {
-        text-align: center;
-        color: #333;
-        margin-top: 0;
-        margin-bottom: 5px;
-        font-size: 20px;
+      button {
+        border: 1px solid #cfd6dd;
+        background: #fff;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-weight: 600;
+        cursor: pointer;
       }
-      h2 {
-        text-align: center;
-        color: #666;
-        margin-top: 0;
-        margin-bottom: 15px;
+      button:hover {
+        background: #f8fafc;
+      }
+      .hint {
+        font-size: 12px;
+        color: #555;
+        margin-top: 8px;
+      }
+
+      /* SVG text */
+      .label {
         font-size: 14px;
-        font-weight: normal;
+        font-weight: 700;
+        fill: var(--text);
+        user-select: none;
+      }
+      .small {
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .boxText {
+        font-size: 13px;
+        font-weight: 700;
+        fill: var(--text);
+      }
+      .boxSub {
+        font-size: 12px;
+        font-weight: 700;
+        fill: var(--text);
+      }
+      .key {
+        font-size: 12px;
+        font-weight: 600;
+        fill: #333;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Causal Loop Diagram – Drifting Goals Archetype</h1>
-      <h2>Homelessness in Middlesex County, Minnesota</h2>
-      <canvas id="canvas" width="850" height="680"></canvas>
+    <div class="wrap">
+      <div class="card">
+        <!-- SVG canvas -->
+        <svg
+          id="diagram"
+          width="100%"
+          viewBox="0 0 1100 650"
+          role="img"
+          aria-label="Shifting the Burden diagram"
+        >
+          <defs>
+            <!-- Arrowhead -->
+            <marker
+              id="arrow"
+              markerWidth="12"
+              markerHeight="12"
+              refX="10"
+              refY="6"
+              orient="auto"
+              markerUnits="strokeWidth"
+            >
+              <path d="M0,0 L12,6 L0,12 Z" fill="var(--stroke)"></path>
+            </marker>
+
+            <!-- Rounded box style -->
+            <filter
+              id="softShadow"
+              x="-20%"
+              y="-20%"
+              width="140%"
+              height="140%"
+            >
+              <feDropShadow
+                dx="0"
+                dy="1.2"
+                stdDeviation="1.2"
+                flood-color="#000"
+                flood-opacity="0.10"
+              />
+            </filter>
+          </defs>
+
+          <!-- Title -->
+          <text
+            x="550"
+            y="48"
+            text-anchor="middle"
+            class="label"
+            style="font-size: 20px"
+          >
+            Shifting the Burden
+          </text>
+
+          <!-- Boxes (positions tuned to match the “classic” layout) -->
+          <!-- Symptomatic solution -->
+          <g id="boxSym" filter="url(#softShadow)">
+            <rect
+              x="220"
+              y="90"
+              rx="16"
+              ry="16"
+              width="260"
+              height="130"
+              fill="#fff"
+              stroke="var(--stroke)"
+              stroke-width="2.5"
+            ></rect>
+            <text x="350" y="125" text-anchor="middle" class="boxSub">
+              Symptomatic
+            </text>
+            <text x="350" y="145" text-anchor="middle" class="boxSub">
+              Solution-
+            </text>
+            <text x="350" y="172" text-anchor="middle" class="boxText">
+              Temporary
+            </text>
+            <text x="350" y="194" text-anchor="middle" class="boxText">
+              shelters
+            </text>
+          </g>
+
+          <!-- Problem symptom -->
+          <g id="boxProb" filter="url(#softShadow)">
+            <rect
+              x="220"
+              y="260"
+              rx="16"
+              ry="16"
+              width="260"
+              height="130"
+              fill="#fff"
+              stroke="var(--stroke)"
+              stroke-width="2.5"
+            ></rect>
+            <text x="350" y="295" text-anchor="middle" class="boxSub">
+              Problem
+            </text>
+            <text x="350" y="315" text-anchor="middle" class="boxSub">
+              Symptom-
+            </text>
+            <text x="350" y="342" text-anchor="middle" class="boxText">
+              Visible
+            </text>
+            <text x="350" y="364" text-anchor="middle" class="boxText">
+              homelessness
+            </text>
+          </g>
+
+          <!-- Fundamental solution -->
+          <g id="boxFund" filter="url(#softShadow)">
+            <rect
+              x="200"
+              y="450"
+              rx="16"
+              ry="16"
+              width="300"
+              height="150"
+              fill="#fff"
+              stroke="var(--stroke)"
+              stroke-width="2.5"
+            ></rect>
+            <text x="350" y="485" text-anchor="middle" class="boxSub">
+              Fundamental
+            </text>
+            <text x="350" y="505" text-anchor="middle" class="boxSub">
+              Solution-
+            </text>
+            <text x="350" y="532" text-anchor="middle" class="boxText">
+              Development
+            </text>
+            <text x="350" y="554" text-anchor="middle" class="boxText">
+              of affordable
+            </text>
+            <text x="350" y="576" text-anchor="middle" class="boxText">
+              housing program
+            </text>
+          </g>
+
+          <!-- Side-effect -->
+          <g id="boxSide" filter="url(#softShadow)">
+            <rect
+              x="700"
+              y="250"
+              rx="16"
+              ry="16"
+              width="300"
+              height="180"
+              fill="#fff"
+              stroke="var(--stroke)"
+              stroke-width="2.5"
+            ></rect>
+            <text x="850" y="288" text-anchor="middle" class="boxSub">
+              Side-effect-
+            </text>
+            <text x="850" y="318" text-anchor="middle" class="boxText">
+              Public
+            </text>
+            <text x="850" y="340" text-anchor="middle" class="boxText">
+              perception
+            </text>
+            <text x="850" y="362" text-anchor="middle" class="boxText">
+              that
+            </text>
+            <text x="850" y="384" text-anchor="middle" class="boxText">
+              problem is
+            </text>
+            <text x="850" y="406" text-anchor="middle" class="boxText">
+              solved
+            </text>
+          </g>
+
+          <!-- Loop labels -->
+          <text x="350" y="245" text-anchor="middle" class="label">B1</text>
+          <text x="350" y="425" text-anchor="middle" class="label">B2</text>
+          <text x="545" y="345" text-anchor="middle" class="label">R3</text>
+
+          <!-- Delay label (like the example) -->
+          <text x="135" y="470" text-anchor="start" class="small">Delay</text>
+
+          <!-- Arrows: draw after boxes for visibility -->
+          <g
+            id="arrows"
+            fill="none"
+            stroke="var(--stroke)"
+            stroke-width="2.5"
+            marker-end="url(#arrow)"
+          >
+            <!-- B1 loop: Symptomatic -> Problem (O) - LEFT side smooth curve going DOWN -->
+            <path
+              d="M 220 155
+                 C 140 155, 140 325, 220 325"
+            ></path>
+
+            <!-- B1 loop: Problem -> Symptomatic (S) - RIGHT side smooth curve going UP -->
+            <path
+              d="M 480 295
+                 C 540 295, 540 155, 480 155"
+            ></path>
+
+            <!-- B2 loop: Fundamental -> Problem (O) - LEFT side smooth curve going UP -->
+            <path
+              d="M 200 525
+                 C 100 525, 100 355, 220 355"
+            ></path>
+
+            <!-- B2 loop: Problem -> Fundamental (S) - RIGHT side smooth curve going DOWN -->
+            <path
+              d="M 480 355
+                 C 560 355, 560 525, 500 525"
+            ></path>
+
+            <!-- R3 path: Symptomatic -> Side-effect (S) - smooth arc matching bottom arrow style -->
+            <path
+              d="M 480 120
+                 C 580 100, 800 100, 850 250"
+            ></path>
+
+            <!-- R3 path: Side-effect -> Fundamental (O) - smooth arc from bottom of Side-effect to right of Fundamental -->
+            <path
+              d="M 850 430
+                 C 850 540, 620 590, 500 560"
+            ></path>
+          </g>
+
+          <!-- S / O markers - positioned directly ON the arrow lines -->
+          <!-- B1 Loop: Symptomatic -> Problem (O) - on LEFT curve midpoint -->
+          <g>
+            <circle
+              cx="140"
+              cy="240"
+              r="12"
+              fill="#fff"
+              stroke="#333"
+              stroke-width="1.5"
+            />
+            <text
+              x="140"
+              y="244"
+              text-anchor="middle"
+              class="label"
+              style="font-size: 13px"
+            >
+              O
+            </text>
+          </g>
+
+          <!-- B1 Loop: Problem -> Symptomatic (S) - on RIGHT curve midpoint -->
+          <g>
+            <circle
+              cx="540"
+              cy="225"
+              r="12"
+              fill="#fff"
+              stroke="#333"
+              stroke-width="1.5"
+            />
+            <text
+              x="540"
+              y="229"
+              text-anchor="middle"
+              class="label"
+              style="font-size: 13px"
+            >
+              S
+            </text>
+          </g>
+
+          <!-- B2 Loop: Fundamental -> Problem (O) - on LEFT curve midpoint -->
+          <g>
+            <circle
+              cx="100"
+              cy="440"
+              r="12"
+              fill="#fff"
+              stroke="#333"
+              stroke-width="1.5"
+            />
+            <text
+              x="100"
+              y="444"
+              text-anchor="middle"
+              class="label"
+              style="font-size: 13px"
+            >
+              O
+            </text>
+          </g>
+
+          <!-- B2 Loop: Problem -> Fundamental (S) - on RIGHT curve midpoint -->
+          <g>
+            <circle
+              cx="560"
+              cy="440"
+              r="12"
+              fill="#fff"
+              stroke="#333"
+              stroke-width="1.5"
+            />
+            <text
+              x="560"
+              y="444"
+              text-anchor="middle"
+              class="label"
+              style="font-size: 13px"
+            >
+              S
+            </text>
+          </g>
+
+          <!-- R3 Loop: Symptomatic -> Side-effect (S) - on the arc midpoint -->
+          <g>
+            <circle
+              cx="665"
+              cy="100"
+              r="12"
+              fill="#fff"
+              stroke="#333"
+              stroke-width="1.5"
+            />
+            <text
+              x="665"
+              y="105"
+              text-anchor="middle"
+              class="label"
+              style="font-size: 13px"
+            >
+              S
+            </text>
+          </g>
+
+          <!-- R3 Loop: Side-effect -> Fundamental (O) - on the arc midpoint -->
+          <g>
+            <circle
+              cx="685"
+              cy="530"
+              r="12"
+              fill="#fff"
+              stroke="#333"
+              stroke-width="1.5"
+            />
+            <text
+              x="685"
+              y="534"
+              text-anchor="middle"
+              class="label"
+              style="font-size: 13px"
+            >
+              O
+            </text>
+          </g>
+
+          <!-- Small key -->
+          <!-- <text x="40" y="625" class="key">
+            Key: S = same direction change, O = opposite direction change
+          </text> -->
+        </svg>
+      </div>
     </div>
 
-    <script src="causal_loop.js"></script>
+    <script>
+      // --- Helpers: Download SVG or rasterize to PNG ---
+      function downloadBlob(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function getSvgString(svgEl) {
+        const clone = svgEl.cloneNode(true);
+        // Ensure proper namespaces
+        clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        clone.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+
+        // Inline computed CSS (simple approach: serialize as-is since styles are mostly in attributes/classes)
+        const serializer = new XMLSerializer();
+        return serializer.serializeToString(clone);
+      }
+
+      document.getElementById("downloadSvg").addEventListener("click", () => {
+        const svg = document.getElementById("diagram");
+        const svgString = getSvgString(svg);
+        downloadBlob(
+          new Blob([svgString], { type: "image/svg+xml;charset=utf-8" }),
+          "shifting-the-burden.svg",
+        );
+      });
+
+      document
+        .getElementById("downloadPng")
+        .addEventListener("click", async () => {
+          const svg = document.getElementById("diagram");
+          const svgString = getSvgString(svg);
+
+          // Create image from SVG
+          const img = new Image();
+          const svgBlob = new Blob([svgString], {
+            type: "image/svg+xml;charset=utf-8",
+          });
+          const url = URL.createObjectURL(svgBlob);
+
+          img.onload = () => {
+            // Render at high resolution
+            const scale = 2; // increase for higher-res PNG
+            const vb = svg.viewBox.baseVal;
+            const canvas = document.createElement("canvas");
+            canvas.width = vb.width * scale;
+            canvas.height = vb.height * scale;
+
+            const ctx = canvas.getContext("2d");
+            ctx.scale(scale, scale);
+            // white background
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, vb.width, vb.height);
+            ctx.drawImage(img, 0, 0);
+
+            URL.revokeObjectURL(url);
+
+            canvas.toBlob((blob) => {
+              if (blob) downloadBlob(blob, "shifting-the-burden.png");
+            }, "image/png");
+          };
+
+          img.onerror = () => {
+            URL.revokeObjectURL(url);
+            alert("Could not render PNG. Try downloading the SVG instead.");
+          };
+
+          img.src = url;
+        });
+    </script>
   </body>
 </html>
